@@ -1,0 +1,120 @@
+﻿@page "/counter"
+
+@using ProyectoFinalWeb.BLL;
+@using ProyectoFinalWeb.Entidades;
+
+<h1>Registro Clientes</h1>
+
+<EditForm Model="@clientes" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="container">
+
+
+        <label for="Nombre" class="col-md-2 col-form-label">Nombre</label>
+        <input type="text" id="Nombre" class="form-check" @bind="clientes.Nombre" />
+        <ValidationMessage For="@(() => clientes.Nombre)" />
+
+    </div>
+    <div class="container">
+
+
+        <label for="Email" class="col-md-2 col-form-label">Email</label>
+        <input type="text" id="Email" class="form-check" @bind="clientes.Email" />
+        <ValidationMessage For="@(() => clientes.Email)" />
+
+    </div>
+    <div class="container">
+
+
+        <label for="Telefono" class="col-md-2 col-form-label">Telefono</label>
+        <input type="text" id="Telefono" class="form-check" @bind="clientes.Telefono" />
+        <ValidationMessage For="@(() => clientes.Telefono)" />
+
+    </div>
+    <div class="container">
+
+
+        <label for="Direccion" class="col-md-2 col-form-label">Direccion</label>
+        <input type="text" id="Direccion" class="form-check" @bind="clientes.Direccion" />
+        <ValidationMessage For="@(() => clientes.Direccion)" />
+
+    </div>
+
+    <br />
+    <ValidationSummary />
+    <div class="form-group">
+
+        <button type="button" class="col-md-offset-2 btn btn-primary" @onclick="Nuevo">Nuevo</button>
+
+        <button type="button" class="col-md-offset-2 btn btn-success" @onclick="Guardar">Guardar</button>
+
+
+    </div>
+</EditForm>
+
+
+
+    @code {
+
+
+        Clientes clientes = new Clientes();
+
+
+
+
+
+        private void Limpiar()
+        {
+            clientes = new Clientes();
+            clientes.Nombre = string.Empty;
+            clientes.Direccion = string.Empty;
+            clientes.Email = string.Empty;
+            clientes.Telefono = string.Empty;
+        }
+
+
+
+        private void Nuevo()
+        {
+            Limpiar();
+        }
+
+
+        private void Guardar()
+        {
+            RepositorioBase<Clientes> db = new RepositorioBase<Clientes>();
+
+
+
+            try
+            {
+                if(clientes.ClienteId == 0)
+                {
+                    if (db.Insert(clientes))
+                    {
+                        Limpiar();
+
+                    }
+
+                }
+                else
+                {
+                    if(db.Update(clientes))
+                    {
+                        Limpiar();
+                    }
+                }
+
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+
+    }
